@@ -1,7 +1,8 @@
 
-
+#import libs
 import pandas as pd
 import numpy as np
+import flask
 import re
 import datetime
 from nltk.corpus import stopwords
@@ -77,7 +78,6 @@ test['goal'] = np.log1p(test['goal'])
 
 kickdesc = pd.Series(train['desc'].tolist() + test['desc'].tolist()).astype(str)
 
-
 def desc_clean(word):
     p1 = re.sub(pattern='(\W+)|(\d+)|(\s+)',repl=' ',string=word)
     p1 = p1.lower()
@@ -130,7 +130,7 @@ params = {
     'subsample':0.7,
     'colsample_bytree':0.7,
     'min_child_weight':5
-    
+
 }
 bst = xgb.cv(params, dtrain, num_boost_round=1000, early_stopping_rounds=40,nfold=5L,verbose_eval=10)
 
@@ -146,9 +146,3 @@ sub['final_status'] = p_test
 sub['final_status'] = [1 if x > 0.5 else 0 for x in sub['final_status']]
 
 sub.to_csv("with_xgboost.csv",index=False) #0.70
-
-
-
-
-
-
