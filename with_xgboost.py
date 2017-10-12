@@ -9,6 +9,8 @@ from sklearn.preprocessing import LabelEncoder
 from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 import xgboost as xgb
+import sklean
+import abc
 
 #load data
 train = pd.read_csv('train.csv')
@@ -130,7 +132,7 @@ params = {
     'subsample':0.7,
     'colsample_bytree':0.7,
     'min_child_weight':5
-    
+
 }
 bst = xgb.cv(params, dtrain, num_boost_round=1000, early_stopping_rounds=40,nfold=5L,verbose_eval=10)
 
@@ -146,9 +148,3 @@ sub['final_status'] = p_test
 sub['final_status'] = [1 if x > 0.5 else 0 for x in sub['final_status']]
 
 sub.to_csv("with_xgboost.csv",index=False) #0.70
-
-
-
-
-
-
