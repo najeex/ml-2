@@ -1,7 +1,8 @@
 
-
+#import libs
 import pandas as pd
 import numpy as np
+import flask
 import re
 import datetime
 from nltk.corpus import stopwords
@@ -78,7 +79,6 @@ train['goal'] = np.log1p(train['goal'])
 test['goal'] = np.log1p(test['goal'])
 
 kickdesc = pd.Series(train['desc'].tolist() + test['desc'].tolist()).astype(str)
-
 
 def desc_clean(word):
     p1 = re.sub(pattern='(\W+)|(\d+)|(\s+)',repl=' ',string=word)
